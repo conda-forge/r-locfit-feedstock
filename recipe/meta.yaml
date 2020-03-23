@@ -1,5 +1,4 @@
-{% set version = '1.5-9.1' %}
-
+{% set version = "1.5-9.2" %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -8,32 +7,33 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: locfit_{{ version }}.tar.gz
   url:
-    - https://cran.r-project.org/src/contrib/locfit_{{ version }}.tar.gz
-    - https://cran.r-project.org/src/contrib/Archive/locfit/locfit_{{ version }}.tar.gz
-  sha256: f524148fdb29aac3a178618f88718d3d4ac91283014091aa11a01f1c70cd4e51
+    - {{ cran_mirror }}/src/contrib/locfit_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/locfit/locfit_{{ version }}.tar.gz
+  sha256: eb886e87a574c26b4a47a89eba66c853c0e8001a20ce3797ff256ddb99d18002
 
 build:
-  merge_build_host: True  # [win]
-  number: 1004
-  skip: true  # [win32]
-
+  merge_build_host: true  # [win]
+  number: 0
   rpaths:
     - lib/R/lib/
     - lib/
 
 requirements:
   build:
-    - posix                # [win]
-    - {{ compiler('c') }}        # [unix]
-    - {{ compiler('m2w64_c') }}  # [win]
+    - {{ compiler('c') }}              # [not win]
+    - {{ compiler('m2w64_c') }}        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
   host:
     - r-base
     - r-lattice
-
   run:
     - r-base
+    - {{native}}gcc-libs         # [win]
     - r-lattice
 
 test:
@@ -43,12 +43,12 @@ test:
 
 about:
   home: https://CRAN.R-project.org/package=locfit
-  license: GPL (>= 2)
+  license: GPL-2
   summary: Local regression, likelihood and density estimation.
-  license_family: GPL3
+  license_family: GPL2
+  license_file:
+    - '{{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-2'
 
 extra:
   recipe-maintainers:
     - conda-forge/r
-    - johanneskoester
-    - bgruening
