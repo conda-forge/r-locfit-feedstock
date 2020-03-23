@@ -1,4 +1,4 @@
-{% set version = '1.5-9.1' %}
+{% set version = "1.5-9.2" %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -12,11 +12,11 @@ source:
   url:
     - https://cran.r-project.org/src/contrib/locfit_{{ version }}.tar.gz
     - https://cran.r-project.org/src/contrib/Archive/locfit/locfit_{{ version }}.tar.gz
-  sha256: f524148fdb29aac3a178618f88718d3d4ac91283014091aa11a01f1c70cd4e51
+  sha256: eb886e87a574c26b4a47a89eba66c853c0e8001a20ce3797ff256ddb99d18002
 
 build:
-  merge_build_host: True  # [win]
-  number: 1004
+  merge_build_host: true  # [win]
+  number: 0
   skip: true  # [win32]
 
   rpaths:
