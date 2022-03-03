@@ -1,4 +1,4 @@
-{% set version = "1.5-9.4" %}
+{% set version = "1.5-9.5" %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -10,11 +10,11 @@ source:
   url:
     - {{ cran_mirror }}/src/contrib/locfit_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/locfit/locfit_{{ version }}.tar.gz
-  sha256: d9d3665c5f3d49f698fb4675daf40a0550601e86db3dc00f296413ceb1099ced
+  sha256: fd9f2bad9d8beec8be4843dc80e38ebe0f388835a7003490f67e57eeb9e6de23
 
 build:
   merge_build_host: true  # [win]
-  number: 1
+  number: 0
   rpaths:
     - lib/R/lib/
     - lib/
@@ -28,6 +28,7 @@ requirements:
     - {{ posix }}sed               # [win]
     - {{ posix }}coreutils         # [win]
     - {{ posix }}zip               # [win]
+    - cross-r-base {{ r_base }}    # [build_platform != target_platform]
   host:
     - r-base
     - r-lattice
@@ -38,12 +39,12 @@ requirements:
 
 test:
   commands:
-    - $R -e "library('locfit')"  # [not win]
+    - $R -e "library('locfit')"           # [not win]
     - "\"%R%\" -e \"library('locfit')\""  # [win]
 
 about:
   home: https://CRAN.R-project.org/package=locfit
-  license: GPL-2
+  license: GPL-2.0-or-later
   summary: Local regression, likelihood and density estimation.
   license_family: GPL2
   license_file:
