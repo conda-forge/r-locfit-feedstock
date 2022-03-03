@@ -28,6 +28,7 @@ requirements:
     - {{ posix }}sed               # [win]
     - {{ posix }}coreutils         # [win]
     - {{ posix }}zip               # [win]
+    - cross-r-base {{ r_base }}    # [build_platform != target_platform]
   host:
     - r-base
     - r-lattice
@@ -38,12 +39,12 @@ requirements:
 
 test:
   commands:
-    - $R -e "library('locfit')"  # [not win]
+    - $R -e "library('locfit')"           # [not win]
     - "\"%R%\" -e \"library('locfit')\""  # [win]
 
 about:
   home: https://CRAN.R-project.org/package=locfit
-  license: GPL-2
+  license: GPL-2.0-or-later
   summary: Local regression, likelihood and density estimation.
   license_family: GPL2
   license_file:
