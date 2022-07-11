@@ -1,4 +1,4 @@
-{% set version = "1.5-9.5" %}
+{% set version = "1.5-9.6" %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -10,7 +10,7 @@ source:
   url:
     - {{ cran_mirror }}/src/contrib/locfit_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/locfit/locfit_{{ version }}.tar.gz
-  sha256: fd9f2bad9d8beec8be4843dc80e38ebe0f388835a7003490f67e57eeb9e6de23
+  sha256: 1ee89e4003cb769feae61ada7ac0a971df30644824f7ed84a21dd5719f713476
 
 build:
   merge_build_host: true  # [win]
