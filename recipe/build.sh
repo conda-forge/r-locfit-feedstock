@@ -1,5 +1,6 @@
 #!/bin/bash
 
+export CC17=$CC
 export DISABLE_AUTOBREW=1
 
 # shellcheck disable=SC2086
