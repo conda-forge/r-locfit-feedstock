@@ -15,29 +15,29 @@ source:
 build:
   merge_build_host: true  # [win]
   number: 0
-  skip: true  # [r_base == "4.0"]
   rpaths:
     - lib/R/lib/
     - lib/
 
 requirements:
   build:
-    - {{ compiler('c') }}              # [not win]
-    - {{ stdlib("c") }}                # [not win]
-    - {{ compiler('m2w64_c') }}        # [win]
-    - {{ stdlib("m2w64_c") }}          # [win]
-    - {{ posix }}filesystem        # [win]
+    - cross-r-base {{ r_base }}  # [build_platform != target_platform]
+    - r-lattice                  # [build_platform != target_platform]
+    - {{ compiler('c') }}        # [not win]
+    - {{ stdlib("c") }}          # [not win]
+    - {{ compiler('m2w64_c') }}  # [win]
+    - {{ stdlib("m2w64_c") }}    # [win]
+    - {{ posix }}filesystem      # [win]
     - {{ posix }}make
-    - {{ posix }}sed               # [win]
-    - {{ posix }}coreutils         # [win]
-    - {{ posix }}zip               # [win]
-    - cross-r-base {{ r_base }}    # [build_platform != target_platform]
+    - {{ posix }}sed             # [win]
+    - {{ posix }}coreutils       # [win]
+    - {{ posix }}zip             # [win]
   host:
     - r-base
     - r-lattice
   run:
     - r-base
-    - {{ native }}gcc-libs         # [win]
+    - {{ native }}gcc-libs       # [win]
     - r-lattice
 
 test:
@@ -52,6 +52,7 @@ about:
   license_family: GPL2
   license_file:
     - {{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-2
+    - {{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-3
 
 extra:
   recipe-maintainers:
