@@ -1,4 +1,4 @@
-{% set version = "1.5-9.9" %}
+{% set version = "1.5-9.10" %}
 {% set posix = 'm2-' if win else '' %}
 
 package:
@@ -9,10 +9,10 @@ source:
   url:
     - {{ cran_mirror }}/src/contrib/locfit_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/locfit/locfit_{{ version }}.tar.gz
-  sha256: 93d142b6061c5ca8ea8cf1efd8c9f6ac73c86353ff064f93ded8b93d7d88f2d4
+  sha256: 4c20661814993a87ca435f42b0814bacb87c5a9ccc2ff55e4cae718cb176ac06
 
 build:
-  number: 1
+  number: 0
   rpaths:
     - lib/R/lib/
     - lib/
