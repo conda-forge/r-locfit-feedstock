@@ -1,6 +1,5 @@
-{% set version = "1.5-9.9" %}
+{% set version = "1.5-9.10" %}
 {% set posix = 'm2-' if win else '' %}
-{% set native = 'm2w64-' if win else '' %}
 
 package:
   name: r-locfit
@@ -10,32 +9,35 @@ source:
   url:
     - {{ cran_mirror }}/src/contrib/locfit_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/locfit/locfit_{{ version }}.tar.gz
-  sha256: 93d142b6061c5ca8ea8cf1efd8c9f6ac73c86353ff064f93ded8b93d7d88f2d4
+  sha256: 4c20661814993a87ca435f42b0814bacb87c5a9ccc2ff55e4cae718cb176ac06
 
 build:
-  merge_build_host: true  # [win]
   number: 0
-  skip: true  # [r_base == "4.0"]
   rpaths:
     - lib/R/lib/
     - lib/
+  ## ignore workaround patching for https://github.com/conda-forge/r-base-feedstock/issues/349
+  ignore_prefix_files:
+    - lib/R/etc/Makeconf
 
 requirements:
   build:
-    - {{ compiler('c') }}              # [not win]
-    - {{ compiler('m2w64_c') }}        # [win]
-    - {{ posix }}filesystem        # [win]
+    - cross-r-base {{ r_base }}  # [build_platform != target_platform]
+    - r-lattice                  # [build_platform != target_platform]
+    - {{ compiler('c') }}        # [not win]
+    - {{ stdlib("c") }}          # [not win]
+    - {{ compiler('m2w64_c') }}  # [win]
+    - {{ stdlib("m2w64_c") }}    # [win]
+    - {{ posix }}filesystem      # [win]
     - {{ posix }}make
-    - {{ posix }}sed               # [win]
-    - {{ posix }}coreutils         # [win]
-    - {{ posix }}zip               # [win]
-    - cross-r-base {{ r_base }}    # [build_platform != target_platform]
+    - {{ posix }}sed             # [win]
+    - {{ posix }}coreutils       # [win]
+    - {{ posix }}zip             # [win]
   host:
     - r-base
     - r-lattice
   run:
     - r-base
-    - {{ native }}gcc-libs         # [win]
     - r-lattice
 
 test:
@@ -50,6 +52,7 @@ about:
   license_family: GPL2
   license_file:
     - {{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-2
+    - {{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-3
 
 extra:
   recipe-maintainers:
