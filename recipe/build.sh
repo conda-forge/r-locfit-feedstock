@@ -8,10 +8,17 @@ if [[ "$target_platform" == "linux-aarch64" || "$target_platform" == "linux-ppc6
     else
         MAKECONF="${PREFIX}/lib/R/etc/Makeconf"
     fi
+
+    # capture CC and CFLAGS entries
+    CC_VALUE=$(sed -n 's/^CC = \(.*\)/\1/p' "${MAKECONF}")
+    CFLAGS_VALUE=$(sed -n 's/^CFLAGS = \(.*\)/\1/p' "${MAKECONF}")
     
-    # piggyback CC17 and C17FLAGS on generic definition
-    sed -i 's|^CC17 =.*|CC17 = $(CC) -std=gnu17|' "${MAKECONF}"
-    sed -i 's|^C17FLAGS =.*|C17FLAGS = $(CFLAGS)|' "${MAKECONF}"
+    # insert into CC17 and C17FLAGS definitions
+    sed -i "s|^CC17 =.*|CC17 = $CC_VALUE -std=gnu17|" "${MAKECONF}"
+    sed -i "s|^C17FLAGS =.*|C17FLAGS = $CFLAGS_VALUE|" "${MAKECONF}"
+
+    # debug
+    cat ${MAKECONF}
 fi
 
 export DISABLE_AUTOBREW=1
