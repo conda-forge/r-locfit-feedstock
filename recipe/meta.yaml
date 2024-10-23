@@ -16,6 +16,9 @@ build:
   rpaths:
     - lib/R/lib/
     - lib/
+  ## ignore workaround patching for https://github.com/conda-forge/r-base-feedstock/issues/349
+  ignore_prefix_files:
+    - lib/R/etc/Makeconf
 
 requirements:
   build:
