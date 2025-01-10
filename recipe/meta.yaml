@@ -30,7 +30,7 @@ requirements:
     - {{ stdlib("m2w64_c") }}    # [win]
     - {{ posix }}filesystem      # [win]
     - {{ posix }}make
-    - {{ posix }}sed             # [win]
+    - {{ posix }}sed
     - {{ posix }}coreutils       # [win]
     - {{ posix }}zip             # [win]
   host:
